@@ -1,0 +1,52 @@
+[
+	{
+		"city": "London",
+		"people": "5500",
+		"median": "2.8"
+	},
+	{
+		"city": "Dubai",
+		"people": "1950",
+		"median": "3.2"
+	},
+	{
+		"city": "Kyiv",
+		"people": "5000",
+		"median": "2.1"
+	},
+	{
+		"city": "Belport",
+		"people": "1100",
+		"median": "2"
+	},
+	{
+		"city": "Qebeq",
+		"people": "2500",
+		"median": "4.8"
+	},
+	{
+		"city": "Marseille",
+		"people": "1730",
+		"median": "5.1"
+	},
+	{
+		"city": "Venice",
+		"people": "3200",
+		"median": "4.8"
+	},
+	{
+		"city": "Warsaw",
+		"people": "2200",
+		"median": "2.8"
+	},
+	{
+		"city": "Geneve",
+		"people": "3700",
+		"median": "4.1"
+	},
+	{
+		"city": "Lyon",
+		"people": "2300",
+		"median": "3.1"
+	}
+]

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>before</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<style>
+		#table{
+			width: 500px;
+			margin: 50px auto;
+			display: flex;
+			flex-direction: column;
+		}
+		.row, .th{
+			display: flex;
+			width: 100%;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		.th{
+			background-color: black;
+			color: #fff;
+		}
+		.cell{
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: center;
+			padding: 10px;
+			border: 1px solid #e2e2e2;
+			border-width: 0 1px 1px;
+			text-align: center;
+		}
+		.cell div{
+			padding: 7px;
+			text-align: center;
+		}
+
+		.cell:nth-of-type(n){
+			width: 50%;
+		}
+		.cell:nth-of-type(2n), .cell:nth-of-type(3n){
+			width: 25%;
+		}
+		.row:nth-of-type(even){
+			background-color: lightgray;
+		}
+		.th .cell{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+	<!--<section id="table">
+		<div class="th">
+
+			<div class="cell name_filter">Name</div>
+			<div class="cell count_filter">Count</div>
+			<div class="cell median_filter">Median</div>
+		</div>
+	</section>
+
+-->
+	<section id="table">
+		<div class="th">
+		    <div class = "cell">
+				<div >Name</div>
+				<div class="name_filter_up"><i class="fas fa-angle-up"></i></div>
+	            <div class="name_filter_down"><i class="fas fa-angle-down"></i></div>
+	        </div>
+	        <div class = "cell">
+				<div >Count</div>
+				<div class="count_filter_up"><i class="fas fa-angle-up"></i></div>
+	            <div class="count_filter_down"><i class="fas fa-angle-down"></i></div>
+	        </div>
+	        <div class = "cell">    
+				<div >Median</div>
+				<div class="median_filter_up"><i class="fas fa-angle-up"></i></div>
+	            <div class="median_filter_down"><i class="fas fa-angle-down"></i></div>
+	        </div>
+		</div>
+	</section>
+<script>
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', 'data.json');
+	xhr.send();
+
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				var data = JSON.parse(xhr.responseText);
+				buildTable(data);
+			}
+			else{
+				console.error('Smth went wrong');
+			}
+		}
+	}
+
+	var table = document.getElementById('table');
+	function buildTable(data){
+
+		for(var i = 0; i < data.length; i++){
+			var row = document.createElement('div');
+			row.classList.add('row');
+
+			for(var prop in data[i]){
+				var cell = document.createElement('div');
+				cell.classList.add('cell');
+				cell.classList.add('cell_' + prop);
+				cell.innerText = data[i][prop];
+				row.appendChild(cell);
+			}
+			table.appendChild(row);
+		}
+	}
+
+	var namefilterdown = document.querySelector('.name_filter_down');
+	var namefilterup = document.querySelector('.name_filter_up');
+	var countfilterdown = document.querySelector('.count_filter_down');
+	var countfilterup = document.querySelector('.count_filter_up');
+	var medianfilterdown = document.querySelector('.median_filter_down');
+	var medianfilterup = document.querySelector('.median_filter_up');
+
+	namefilterdown.onclick = filterNamesDown;
+	namefilterup.onclick = filterNamesUp;
+	countfilterdown.onclick = filterCountDown;
+	countfilterup.onclick = filterCountUp;
+	medianfilterdown.onclick = filterMedianDown;
+	medianfilterup.onclick = filterMedianUp;
+
+	function filterNamesDown(){
+		var names = document.querySelectorAll('.cell_city');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+			if(a.innerText > b.innerText ){
+				return 1;
+			}
+			else if(b.innerText > a.innerText ){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+
+		}
+	}
+	function filterNamesUp(){
+		var names = document.querySelectorAll('.cell_city');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+			if(a.innerText < b.innerText ){
+				return 1;
+			}
+			else if(b.innerText < a.innerText ){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+
+		}
+	}
+
+	function filterCountUp(){
+		var names = document.querySelectorAll('.cell_people');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+	
+			if(Number(a.innerText) > Number(b.innerText)){
+				return -1;
+			}
+			else if(Number(b.innerText) > Number(a.innerText )){
+				return 1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+		}
+	}
+	function filterCountDown(){
+		var names = document.querySelectorAll('.cell_people');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+	
+			if(Number(a.innerText) < Number(b.innerText)){
+				return -1;
+			}
+			else if(Number(b.innerText) < Number(a.innerText )){
+				return 1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+		}
+	}
+
+	function filterMedianDown(){
+		var names = document.querySelectorAll('.cell_median');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+			if(Number(b.innerText) < Number(a.innerText )){
+				return 1;
+			}
+			else if(Number(b.innerText) > Number(a.innerText )){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+		}
+	}
+	function filterMedianUp(){
+		var names = document.querySelectorAll('.cell_median');
+		names = [].slice.call(names);
+		names.sort(function(a, b){
+			if(Number(b.innerText) < Number(a.innerText )){
+				return 1;
+			}
+			else if(Number(b.innerText) > Number(a.innerText )){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+		});
+		for(var i = 0; i < names.length; i++){
+			names[i].parentNode.style.order = i;
+		}
+	}
+
+</script>
+
+</body>
+</html>
